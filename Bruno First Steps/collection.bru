@@ -1,0 +1,11 @@
+headers {
+  X-Request-ID: {{uuid}}
+}
+
+script:pre-request {
+  // UUID generator
+  bru.setVar('uuid', require("uuid").v4());
+  
+  // Set environment secret
+  bru.setVar('ENV_API_KEY', bru.getProcessEnv(bru.getEnvVar('ENVIRONMENT_PREFIX') + "API_KEY"));
+}
