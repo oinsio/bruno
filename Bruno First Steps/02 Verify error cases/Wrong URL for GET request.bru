@@ -14,3 +14,11 @@ assert {
   res.status: eq 404
   res.headers['x-request-id']: eq {{uuid}}
 }
+
+docs {
+  # Wrong URL for GET requests
+  If you try to reach unexisting URL, you will receive 404 response.
+  ```
+  < 404 Not Found
+  ```
+}

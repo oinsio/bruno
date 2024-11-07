@@ -20,3 +20,42 @@ assert {
   res.body.data.message: contains stranger
   res.headers['x-request-id']: eq {{uuid}}
 }
+
+docs {
+  # Greeting API
+  A simple POST API
+  ```
+  {baseURL}/api/v1/greet
+  ```
+  Body should contain a JSON with a name
+  ```
+  {
+    "name": "{name}"
+  }
+  ```
+  It response with JSON object:
+  ```
+  {
+    "success": true,
+    "data": {
+      "message": "Hello, {name}!"
+    }
+  }
+  ```
+  
+  ## Default name response
+  If you send an empty request body JSON
+  ```
+  {}
+  ```
+  you will receive response body with the default greeting
+  ```
+  {
+    "success": true,
+    "data": {
+      "message": "Hello, stranger!"
+    }
+  }
+  ```
+  
+}

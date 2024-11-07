@@ -22,3 +22,24 @@ assert {
   res.body.data.error: eq Invalid JSON
   res.headers['x-request-id']: eq {{uuid}}
 }
+
+docs {
+  # Greeting API
+  
+  ## Invalid JSON error
+  In case you send an invalid JSON as request body
+  ```
+  {
+    name: {{name}}
+  }
+  ```
+  you will receive error response
+  ```
+  {
+    "success": false,
+    "data": {
+      "error": "Invalid JSON"
+    }
+  }
+  ```
+}
