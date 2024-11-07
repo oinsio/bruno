@@ -1,0 +1,21 @@
+meta {
+  name: Post Request with Default Name
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{protocol}}://{{baseUrl}}/api/v1/greet
+  body: json
+  auth: none
+}
+
+body:json {
+  {}
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.data.message: contains stranger
+}
