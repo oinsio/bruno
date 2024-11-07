@@ -4,3 +4,11 @@
 
 ## Secret Management
 [DotEnv File](https://docs.usebruno.com/secrets-management/dotenv-file)
+
+# Local HTTP Server
+Python local HTTP server can be used for tests.
+
+```
+cd ./Local\ HTTP\ server
+python simple_http_server.py
+```
