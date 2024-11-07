@@ -16,16 +16,17 @@ class SimpleAPIHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         """GET-request handler"""
+        request_id = self.headers.get('X-Request-ID', None)
+        self.log_request_id(request_id)
+
         if self.path == "/api/v1/hello":
             self.send_response(200)
             self.send_header("Content-type", "application/json")
+            self.send_header("X-Request-ID", request_id)
             self.end_headers()
-            request_id = self.headers.get('X-Request-ID', None)
-            self.log_request_id(request_id)
 
             response = {
                 "success": True,
-                "X-Request-ID": request_id,
                 "data": {
                     "message": "Hello, World!"
                 }
@@ -33,15 +34,17 @@ class SimpleAPIHandler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(response).encode('utf-8'))
         else:
             self.send_response(404)
+            self.send_header("X-Request-ID", request_id)
             self.end_headers()
 
     def do_POST(self):
         """POST-request handler"""
+        request_id = self.headers.get('X-Request-ID', None)
+        self.log_request_id(request_id)
+
         if self.path == "/api/v1/greet":
             content_length = int(self.headers['Content-Length'])
             post_data = self.rfile.read(content_length)
-            request_id = self.headers.get('X-Request-ID', None)
-            self.log_request_id(request_id)
 
             try:
                 data = json.loads(post_data.decode('utf-8'))
@@ -49,11 +52,11 @@ class SimpleAPIHandler(BaseHTTPRequestHandler):
 
                 self.send_response(200)
                 self.send_header("Content-type", "application/json")
+                self.send_header("X-Request-ID", request_id)
                 self.end_headers()
 
                 response = {
                     "success": True,
-                    "X-Request-ID": request_id,
                     "data": {
                         "message": f"Hello, {name}!"
                     }
@@ -61,10 +64,12 @@ class SimpleAPIHandler(BaseHTTPRequestHandler):
                 self.wfile.write(json.dumps(response).encode('utf-8'))
             except json.JSONDecodeError:
                 self.send_response(400)
+                self.send_header("X-Request-ID", request_id)
                 self.end_headers()
                 self.wfile.write(b'{"error": "Invalid JSON"}')
         else:
             self.send_response(404)
+            self.send_header("X-Request-ID", request_id)
             self.end_headers()
 
 def run(server_class=HTTPServer, handler_class=SimpleAPIHandler, port=3000):

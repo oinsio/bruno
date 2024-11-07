@@ -20,4 +20,5 @@ assert {
   res.status: eq 200
   res.body.success: eq true
   res.body.data.message: contains {{name}}
+  res.headers['x-request-id']: eq {{uuid}}
 }
