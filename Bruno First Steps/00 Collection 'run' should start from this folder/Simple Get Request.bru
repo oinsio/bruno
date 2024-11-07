@@ -1,0 +1,16 @@
+meta {
+  name: Simple Get Request
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{protocol}}://{{baseUrl}}/api/v1/hello
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+}
