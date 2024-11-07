@@ -63,10 +63,16 @@ class SimpleAPIHandler(BaseHTTPRequestHandler):
                 }
                 self.wfile.write(json.dumps(response).encode('utf-8'))
             except json.JSONDecodeError:
+                response = {
+                    "success": False,
+                    "data": {
+                        "error": "Invalid JSON"
+                    }
+                }
                 self.send_response(400)
                 self.send_header("X-Request-ID", request_id)
                 self.end_headers()
-                self.wfile.write(b'{"error": "Invalid JSON"}')
+                self.wfile.write(json.dumps(response).encode('utf-8'))
         else:
             self.send_response(404)
             self.send_header("X-Request-ID", request_id)
