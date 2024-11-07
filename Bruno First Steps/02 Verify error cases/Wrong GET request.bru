@@ -1,0 +1,16 @@
+meta {
+  name: Wrong GET request
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{protocol}}://{{baseUrl}}/api/v1/hell0
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 404
+  res.headers['x-request-id']: eq {{uuid}}
+}
