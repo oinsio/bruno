@@ -12,3 +12,15 @@ Python local HTTP server can be used for tests.
 cd ./Local\ HTTP\ server
 python simple_http_server.py
 ```
+
+# Bruno CLI
+You need to install the Bruno CLI:
+```
+npm install -g @usebruno/cli
+```
+After that, you will be able to run your collection:
+```
+cd ./Bruno\ First\ Steps/
+bru run --env Local --reporter-html results.html
+```
+Detailed information can be found [here](https://docs.usebruno.com/bru-cli/overview).
