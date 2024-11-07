@@ -1,7 +1,9 @@
 import json
 import logging
 import uuid
+import re
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from urllib.parse import urlparse, parse_qs
 
 # Configure logger
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
@@ -24,13 +26,9 @@ class SimpleAPIHandler(BaseHTTPRequestHandler):
         self.log_request_id(request_id)
 
         if self.path == "/api/v1/hello":
-            response = {
-                "success": True,
-                "data": {
-                    "message": "Hello, World!"
-                }
-            }
-            self.send_status_headers_response(200, request_id, response)
+            self.handle_hello_request(request_id)
+        elif re.match(r"/api/v1/profile\?userId=[a-f0-9\-]{36}", self.path):
+            self.handle_get_profile_request(request_id)
         else:
             self.send_not_found(request_id)
 
@@ -45,6 +43,40 @@ class SimpleAPIHandler(BaseHTTPRequestHandler):
             self.handle_register_request(request_id)
         else:
             self.send_not_found(request_id)
+
+    def handle_hello_request(self, request_id):
+        """Hello request handler"""
+        response = {
+            "success": True,
+            "data": {
+                "message": "Hello, World!"
+            }
+        }
+        self.send_status_headers_response(200, request_id, response)
+
+    def handle_get_profile_request(self, request_id):
+        """Get profile request handler"""
+        parsed_url = urlparse(self.path)
+        query_params = parse_qs(parsed_url.query)
+        user_id = query_params.get('userId', [None])[0]
+        email = find_key_by_value(registered_accounts, user_id)
+        if email:
+            response = {
+                "success": True,
+                "data": {
+                    "userId": user_id,
+                    "email": email
+                }
+            }
+            self.send_status_headers_response(200, request_id, response)
+        else:
+           response = {
+               "success": False,
+               "data": {
+                   "message": f"User account {user_id} not found."
+               }
+           }
+           self.send_status_headers_response(200, request_id, response)
 
     def handle_register_request(self, request_id):
         """Register request handler"""
@@ -126,6 +158,12 @@ def run(server_class=HTTPServer, handler_class=SimpleAPIHandler, port=3000):
     print(f"Starting server on port {port}...")
     logger.info(f"Registered accounts: {registered_accounts}")
     httpd.serve_forever()
+
+def find_key_by_value(d, value):
+    for key, val in d.items():
+        if val == value:
+            return key
+    return None
 
 if __name__ == '__main__':
     run()

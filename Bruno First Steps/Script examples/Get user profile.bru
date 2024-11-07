@@ -1,0 +1,50 @@
+meta {
+  name: Get user profile
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{protocol}}://{{baseUrl}}/api/v1/profile?userId={{userId}}
+  body: none
+  auth: none
+}
+
+params:query {
+  userId: {{userId}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.data.userId: eq {{userId}}
+  res.body.data.email: eq {{registeredEmail}}
+  res.headers['x-request-id']: eq {{uuid}}
+}
+
+docs {
+  # Get user profile API
+  Returns information about registered user account by userId
+  ```
+  {baseUrl}}/api/v1/profile?userId={userId}
+  ```
+  Success response body contains data with userId and email:
+  ```
+  {
+    "success": true,
+    "data": {
+      "userId": "58a5e7ef-61ac-40a0-acf3-029e864968a0",
+      "email": "bruno.test.user.1731012953066@yopmail.com"
+    }
+  }
+  ```
+  If there is not user account with such a userId, response body will contains message that account can't be found:
+  ```
+  {
+    "success": false,
+    "data": {
+      "message": "User account 37c901dc-23de-44bb-8bfa-4d22074cba3b not found."
+    }
+  }
+  ```
+}
