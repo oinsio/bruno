@@ -70,8 +70,9 @@ class SimpleAPIHandler(BaseHTTPRequestHandler):
                 response = {
                     "success": True,
                     "data": {
+                        "email": email,
                         "userId": userId,
-                        "message": f"Account {email} successfully registered."
+                        "message": "Account successfully registered."
                     }
                 }
                 self.send_status_headers_response(200, request_id, response)

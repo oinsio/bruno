@@ -1,0 +1,59 @@
+meta {
+  name: Register user account
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{protocol}}://{{baseUrl}}/api/v1/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "{{generatedEmail}}"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.data.email: eq {{generatedEmail}}
+  res.body.data.userId: isString
+  res.headers['x-request-id']: eq {{uuid}}
+}
+
+script:pre-request {
+  bru.setVar("generatedEmail", "bruno.test.user." + new Date().getTime() + "@yopmail.com");
+}
+
+script:post-response {
+  console.log(res.body);
+  bru.setVar("userId", res.body.data.userId);
+  bru.setVar("registeredEmail", res.body.data.email);
+}
+
+docs {
+  # Register account API
+  API process email from body and generates an unique userId.
+  
+  Example of request body:
+  ```
+  {
+    "email": "bruno.test.user.1731009799235@yopmail.com"
+  }
+  ```
+  
+  Example of response body:
+  ```
+  {
+    "success": true,
+    "data": {
+      "email": "bruno.test.user.1731009799235@yopmail.com",
+      "userId": "5c4b67e4-3983-4663-835d-184f9b0565e9",
+      "message": "Account successfully registered."
+    }
+  }
+  ```
+}
