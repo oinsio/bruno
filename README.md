@@ -19,6 +19,7 @@ It contains the following endpoints:
 * GET `/api/v1/profile/{userId}`
 
 ### Local Hashicorp Vault
+#### Launch Vault in Docker
 To start the local Hashicorp Vault, run the following command:
 ```
 docker run --cap-add=IPC_LOCK -d --name=dev-vault -p 8200:8200 hashicorp/vault:latest
