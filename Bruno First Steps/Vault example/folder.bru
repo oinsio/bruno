@@ -18,7 +18,7 @@ script:pre-request {
   
   if (isItTime) { // Get secret from Vault
       try {
-        const secret = await getVaultSecretAndExtract(bru.getEnvVar('vaultUrl'), bru.getVar('ENV_X_VAULT_TOKEN'), bru.getEnvVar('vaultSecretName'));
+        const secret = await getVaultSecretAndExtract(bru.getEnvVar('vaultBaseUrl') + bru.getEnvVar('vaultSecretEndpoint'), bru.getVar('ENV_X_VAULT_TOKEN'), bru.getEnvVar('vaultSecretName'));
         console.log('Extracted secret:', secret);
         if (secret) {
           bru.setVar("vaultPassword", secret);
