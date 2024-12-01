@@ -29,7 +29,7 @@ script:pre-request {
 }
 
 script:post-response {
-  console.log(res.body);
+  console.log("Register user account response:", res.body);
   bru.setVar("userId", res.body.data.userId);
   bru.setVar("registeredEmail", res.body.data.email);
 }
