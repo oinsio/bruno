@@ -69,6 +69,13 @@ Anyway, you can get secrets from Secret Managers like Hashicorp Vault. To do tha
    3. `js/time-for-secret.js` file. It contains functions to reduce the number of Secret Manager calls.
 3. Update above files according to your needs.
 
+Another way to get secrets from Secret Managers is utilizing external libraries like [node-vault](https://www.npmjs.com/package/node-vault). Such an example you can find in `Bruno First Steps/Vault via node-vault example/Get Request with Vault Secret via node-vault` request. Check its `Pre Request` section. It is used to get `secret/data/bruno` secret and its value.
+
+To make this example working do the follow:
+1. Enable [Developer Mode](https://docs.usebruno.com/get-started/javascript-sandbox).
+2. Set `true` value for `useNodeVault` environment variable.
+3. Open `Tools` -> `Chrome Console` to check console output.
+
 ## Bruno CLI
 You need to install the [Bruno CLI](https://docs.usebruno.com/bru-cli/overview):
 ```
