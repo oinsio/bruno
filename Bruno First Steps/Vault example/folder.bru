@@ -24,12 +24,12 @@ script:pre-request {
           bru.setVar("vaultPassword", secret);
           bru.setVar("secretLastExtractedTime", Date.now());
         } else {
-          console.log('aborts the run gracefully');
-          bru.setNextRequest(null);  // aborts the run gracefully
+          console.log('Secret is empty. Aborts the run.');
+          bru.setNextRequest(null);  // aborts the run
         }
       } catch (error) {
-        console.error('Error fetching secret:', error);
-        bru.setNextRequest(null);  // aborts the run gracefully
+        console.error('Aborts the run because of fetching secret error:', error);
+        bru.setNextRequest(null);  // aborts the run
       }
   }
 }
