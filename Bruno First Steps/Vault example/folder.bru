@@ -1,0 +1,30 @@
+meta {
+  name: Vault example
+}
+
+headers {
+  Vault-Password: {{vaultPassword}}
+}
+
+script:pre-request {
+  // Set environment Vault token
+  bru.setVar('ENV_X_VAULT_TOKEN', bru.getProcessEnv(bru.getEnvVar('ENVIRONMENT_PREFIX') + "X_VAULT_TOKEN"));
+  
+  // Import hashicorp-vault-secrets getVaultSecretAndExtract function
+  const { getVaultSecretAndExtract } = require("./Vault example/js/hashicorp-vault-secrets.js");
+  
+  // Get secret from Vault
+  try {
+    const secret = await getVaultSecretAndExtract(bru.getEnvVar('vaultUrl'), bru.getVar('ENV_X_VAULT_TOKEN'), bru.getEnvVar('vaultSecretName'));
+    console.log('Extracted secret:', secret);
+    if (secret) {
+      bru.setVar("vaultPassword", secret);    
+    } else {
+      console.log('aborts the run gracefully');
+      bru.setNextRequest(null);  // aborts the run gracefully
+    }
+  } catch (error) {
+    console.error('Error fetching secret:', error);
+    bru.setNextRequest(null);  // aborts the run gracefully
+  }
+}
