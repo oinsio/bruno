@@ -31,5 +31,7 @@ script:pre-request {
         console.error('Aborts the run because of fetching secret error:', error);
         bru.setNextRequest(null);  // aborts the run
       }
+  } else {
+    console.log('Skip reading secret from Vault via HTTP to reduce the number of calls.')
   }
 }
