@@ -1,6 +1,22 @@
 # Try Bruno to replace Postman
 
-[Bruno overview documentation](https://docs.usebruno.com/introduction/what-is-bruno)
+## Table of Contents
+- [Overview](#overview)
+- [Setup Local Environment for Tests](#setup-local-environment-for-tests)
+  - [Local HTTP Server](#local-http-server)
+  - [Local Hashicorp Vault](#local-hashicorp-vault)
+    - [Launch Vault in Docker](#launch-vault-in-docker)
+    - [Init Vault](#init-vault)
+    - [Unseal Vault](#unseal-vault)
+    - [Login to Vault Web UI](#login-to-vault-web-ui)
+    - [Write Secrets to Vault](#write-secrets-to-vault)
+- [Bruno Secret Management](#bruno-secret-management)
+- [Bruno CLI](#bruno-cli)
+
+## Overview
+This repository is an example of trying to use Bruno instead of a Postman or Insomnia free account.
+
+You can find complete [Bruno documentation](https://docs.usebruno.com/introduction/what-is-bruno) here.
 
 ## Setup Local Environment for Tests
 
@@ -51,7 +67,7 @@ docker exec -it dev-vault vault ui
 ```
 Open in web browser http://localhost:8200/ui
 
-#### Write Secret to Vault
+#### Write Secrets to Vault
 You can write a secret to the Vault using the following command:
 ```
 docker exec -it dev-vault vault kv put secret/bruno vault_password=<any value>
