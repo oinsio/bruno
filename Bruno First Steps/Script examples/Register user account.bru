@@ -16,6 +16,10 @@ body:json {
   }
 }
 
+vars:pre-request {
+  emailDomain: @yopmail.com
+}
+
 assert {
   res.status: eq 200
   res.body.success: eq true
@@ -25,7 +29,7 @@ assert {
 }
 
 script:pre-request {
-  bru.setVar("generatedEmail", "bruno.test.user." + new Date().getTime() + "@yopmail.com");
+  bru.setVar("generatedEmail", "bruno.test.user." + new Date().getTime() + "{{emailDomain}}");
 }
 
 script:post-response {
